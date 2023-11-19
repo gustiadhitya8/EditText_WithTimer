@@ -61,24 +61,36 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if (countDownTimer != null)countDownTimer.cancel();
-                textView2.setText("Hot Promo Belum Muncul");
+                if (countDownTimer != null){
+                    countDownTimer.cancel();
+                }
+                //textView2.setText("Hot Promo Not Yet Called");
                 countDownTimer = new CountDownTimer(timeSeconds,1000) {
                     @Override
                     public void onTick(long l) {
                         textWaktu.setText(l/1000+"");
+                        if (charSequence.length() == 9){
+                            textView2.setText("Timer start running");
+                        }else {
+                            textView2.setText("Timer reset & re-run again");
+                        }
                     }
 
                     @Override
                     public void onFinish() {
-                        textView2.setText("Hot Promo Muncul (Call API Offer)");
+                        textView2.setText("Hot Promo Appear & Timer Stopped (API Offer Called)");
                     }
                 };
 
                 if (charSequence.length()>= 9){
                     countDownTimer.start();
                 }else{
-                    if (countDownTimer != null)countDownTimer.cancel();
+                    if (countDownTimer != null){
+                        countDownTimer.cancel();
+                        if (charSequence.length()>= 0) {
+                            textView2.setText("Timer not running");
+                        }
+                    }
                 }
             }
 
@@ -92,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 countDownTimer.cancel();
-                textView2.setText("Hot Promo Muncul (Call API Offer)");
+                textView2.setText("Hot Promo Appear & Timer Stopped (API Offer Called)");
             }
         });
     }
